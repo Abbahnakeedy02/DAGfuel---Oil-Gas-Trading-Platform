@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DAGfuel - Oil & Gas Trading Platform</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Smooth scrolling for anchor links */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Body */
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #334155;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 24px;
+      color: #60a5fa;
+    }
+    
+    .logo-icon {
+      color: #3b82f6;
+      font-size: 28px;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+    
+    nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s;
+      text-transform: capitalize;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0%;
+      height: 2px;
+      background: #60a5fa;
+      transition: width 0.3s ease-in-out;
+    }
+
+    nav a:hover {
+      color: #60a5fa;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #60a5fa;
+      color: #60a5fa;
+    }
+    
+    .btn-outline:hover {
+      background: rgba(96, 165, 250, 0.1);
+    }
+    
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+    
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #e2e8f0;
+      border-radius: 3px;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: #1e293b;
+      padding: 15px;
+      position: absolute;
+      top: 70px;
+      right: 20px;
+      width: 200px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .mobile-menu a {
+      padding: 12px 0;
+      border-bottom: 1px solid #334155;
+      color: #e2e8f0;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+     @media (min-width: 900px) {
+      .mobile-menu {
+        display: none;
+      }
+    }
+
+    .mobile-menu a:hover {
+      color: #60a5fa;
+      padding-left: 8px;
+    }
+
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-menu.show {
+      display: flex;
+    }
+
+    /* Hero Section */
+    .hero {
+      width: 100%;
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border-radius: 12px;
+      margin-bottom: 40px;
+    }
+    
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      color: #60a5fa;
+      margin-bottom: 15px;
+    }
+    
+    .hero p {
+      margin: 15px 0;
+      color: #cbd5e1;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    
+    .hero-actions {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    /* Dashboard */
+    .dashboard-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #60a5fa;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      height: 100%;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .card-value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #60a5fa;
+    }
+
+    .card-change {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+      color: #10b981;
+    }
+
+    .card-change.negative {
+      color: #ef4444;
+    }
+
+    /* Main Content Layout */
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    /* Chart Container */
+    .chart-container {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 400px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .chart-title {
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .chart-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chart-actions button {
+      padding: 6px 12px;
+      background: #334155;
+      border: none;
+      color: #cbd5e1;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .chart-actions button:hover {
+      background: #475569;
+    }
+
+    .chart-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 330px;
+      background: #0f172a;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    /* Trading Assistant Section */
+    .trading-section {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 400px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .trading-section h3 {
+      margin-bottom: 15px;
+      color: #60a5fa;
+    }
+
+    .trading-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 15px;
+    }
+
+    .tab {
+      padding: 8px 15px;
+      background: #0f172a;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .tab.active {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .trading-input {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .trading-input input, .trading-input select {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+
+    .trading-input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .trading-input-row input {
+      flex: 1;
+    }
+
+    .trading-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .trading-actions button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-buy {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-sell {
+      background: #ef4444;
+      color: white;
+    }
+
+    .trading-info {
+      margin-top: 20px;
+      background: #0f172a;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4-px solid #3b82f6;
+    }
+
+    .trading-info p {
+      color: #cbd5e1;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    /* Predictions List */
+    .predictions-list {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      min-height: 400px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .prediction-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .prediction-filter {
+      padding: 6px 12px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: #cbd5e1;
+    }
+
+    .prediction-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #334155;
+    }
+
+    .prediction-item:last-child {
+      border-bottom: none;
+    }
+
+    .prediction-info {
+      flex: 1;
+    }
+
+    .prediction-name {
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .prediction-date {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .prediction-value {
+      font-weight: 700;
+      color: #60a5fa;
+    }
+
+    /* Blog Section */
+    .blog-section {
+      margin: 50px 0;
+    }
+    
+    .blog-section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #60a5fa;
+      font-size: 28px;
+    }
+    
+    .blog-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .blog-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 20px;
+      transition: transform 0.3s;
+    }
+    
+    .blog-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .blog-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .blog-card h3 {
+      color: #e2e8f0;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    
+    .blog-card p {
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 50px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 14px;
+      padding: 20px;
+      border-top: 1px solid #334155;
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .main-content {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .predictions-list {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .predictions-list {
+        grid-column: span 1;
+      }
+      
+      nav ul {
+        display: none;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    @media (min-width: 901px) {
+      .mobile-menu a {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body> 
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script type="text/babel">
+    // Define the backend URL
+    const API_URL = 'http://localhost:3000/api';
+
+    // Header with MetaMask + Hamburger
+    function Header() {
+      const [menuOpen, setMenuOpen] = React.useState(false);
+      const [walletConnected, setWalletConnected] = React.useState(false);
+      const [walletAddress, setWalletAddress] = React.useState("");
+
+      const connectWallet = async () => {
+        if (window.ethereum) {
+          try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            setWalletConnected(true);
+            setWalletAddress(`${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`);
+            localStorage.setItem('walletAddress', accounts[0]);
+          } catch (error) {
+            console.error(error);
+            showCustomAlert("Connection rejected or failed.");
+          }
+        } else {
+          showCustomAlert("MetaMask not detected. Please install it!");
+        }
+      };
+
+      const showCustomAlert = (message) => {
+        const alertBox = document.createElement('div');
+        alertBox.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          padding: 15px;
+          background-color: #ef4444;
+          color: white;
+          border-radius: 8px;
+          z-index: 1000;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+          font-family: 'Inter', sans-serif;
+        `;
+        alertBox.textContent = message;
+        document.body.appendChild(alertBox);
+
+        setTimeout(() => {
+          document.body.removeChild(alertBox);
+        }, 3000);
+      };
+
+      React.useEffect(() => {
+        const storedAddress = localStorage.getItem('walletAddress');
+        if (storedAddress) {
+          setWalletConnected(true);
+          setWalletAddress(`${storedAddress.substring(0, 6)}...${storedAddress.substring(storedAddress.length - 4)}`);
+        }
+      }, []);
+
+      return (
+        <header>
+          <div className="logo">
+            <i className="fas fa-project-diagram logo-icon"></i>
+            <span>DAGfuel</span>
+          </div>
+
+          <nav>
+            <ul>
+              <li><a href="#dashboard">Dashboard</a></li>
+              <li><a href="#markets">Markets</a></li>
+              <li><a href="#predictions">Predictions</a></li>
+              <li><a href="#analytics">Analytics</a></li>
+              <li><a href="#learn">Learn</a></li>
+            </ul>
+          </nav>
+
+          <div className="auth-buttons">
+            {walletConnected ? (
+              <button className="btn btn-outline">
+                <i className="fas fa-wallet"></i> {walletAddress}
+              </button>
+            ) : (
+              <button className="btn btn-primary" onClick={connectWallet}>
+                Connect Wallet
+              </button>
+            )}
+            <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <div className={`mobile-menu ${menuOpen ? 'show' : ''}`}>
+            <a href="#dashboard" onClick={() => setMenuOpen(false)}>Dashboard</a>
+            <a href="#markets" onClick={() => setMenuOpen(false)}>Markets</a>
+            <a href="#predictions" onClick={() => setMenuOpen(false)}>Predictions</a>
+            <a href="#analytics" onClick={() => setMenuOpen(false)}>Analytics</a>
+            <a href="#learn" onClick={() => setMenuOpen(false)}>Learn</a>
+          </div>
+        </header>
+      );
+    }
+
+    // Hero Section
+    function Hero() {
+      return (
+        <section className="hero">
+          <h1>Welcome to DAGFuel</h1>
+          <p>Trade oil & gas like digital assets using BDAG tokens. Predict price movements, go long or short, and experience the future of energy trading on blockchain.</p>
+          <div className="hero-actions">
+            <button className="btn btn-primary">Start Trading</button>
+            <button className="btn btn-outline">Learn More</button>
+          </div>
+        </section>
+      );
+    }
+
+    // Market Card Component
+    function MarketCard({ title, value, change, isPositive }) {
+      return (
+        <div className="card">
+          <div className="card-header">
+            <div className="card-title">{title}</div>
+            <i className="fas fa-info-circle" style={{ color: '#94a3b8' }}></i>
+          </div>
+          <div className="card-value">{value}</div>
+          <div className={`card-change ${isPositive ? '' : 'negative'}`}>
+            <i className={`fas ${isPositive ? 'fa-arrow-up' : 'fa-arrow-down'}`}></i>
+            {change.toFixed(2)}%
+          </div>
+        </div>
+      );
+    }
+
+    // Chart Component
+    function Chart({ asset, chartData }) {
+      // In a real application, you'd use a library like Chart.js or D3.js here.
+      // We will show a placeholder for the demo.
+      return (
+        <div className="chart-container" id="markets">
+          <div className="chart-header">
+            <div className="chart-title">{asset} Trading Chart</div>
+            <div className="chart-actions">
+              <button>1D</button>
+              <button>1W</button>
+              <button>1M</button>
+              <button>1Y</button>
+            </div>
+          </div>
+          <div className="chart-placeholder">
+            Trading Chart for {asset} (Live data from backend)
+          </div>
+        </div>
+      );
+    }
+
+    // Trading Assistant Component
+    function TradingAssistant({ walletAddress }) {
+      const [activeTab, setActiveTab] = React.useState('trade');
+      const [asset, setAsset] = React.useState('OIL');
+      const [amount, setAmount] = React.useState('');
+      const [leverage, setLeverage] = React.useState('1x');
+      const [orderType, setOrderType] = React.useState('market');
+      const [reply, setReply] = React.useState('');
+      const [transactions, setTransactions] = React.useState([]);
+
+      const fetchTransactions = async () => {
+        if (!walletAddress) return;
+        try {
+          const response = await fetch(`${API_URL}/transactions/${walletAddress}`);
+          if (response.ok) {
+            const data = await response.json();
+            setTransactions(data.transactions);
+          }
+        } catch (error) {
+          console.error("Failed to fetch transactions:", error);
+        }
+      };
+
+      React.useEffect(() => {
+        fetchTransactions();
+      }, [walletAddress, activeTab]);
+
+      const handleTrade = async (side) => {
+        if (!walletAddress) {
+          setReply("Please connect your MetaMask wallet first.");
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/trade`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ walletAddress, asset, amount, leverage, orderType, side }),
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            setReply(`✅ ${data.message}`);
+            setAmount(''); // Clear amount field after successful trade
+            fetchTransactions(); // Refresh transaction history
+          } else {
+            setReply(`❌ Error: ${data.message}`);
+          }
+        } catch (error) {
+          setReply("Failed to connect to backend server. Please make sure the server is running.");
+          console.error("Trade failed:", error);
+        }
+      };
+
+      return (
+        <div className="trading-section">
+          <h3>Trading Assistant</h3>
+          
+          <div className="trading-tabs">
+            <div className={`tab ${activeTab === 'trade' ? 'active' : ''}`} onClick={() => setActiveTab('trade')}>Trade</div>
+            <div className={`tab ${activeTab === 'history' ? 'active' : ''}`} onClick={() => setActiveTab('history')}>History</div>
+          </div>
+          
+          {activeTab === 'trade' && (
+            <>
+              <div className="trading-input">
+                <select value={asset} onChange={(e) => setAsset(e.target.value)}>
+                  <option value="OIL">Crude Oil (OIL)</option>
+                  <option value="GAS">Natural Gas (GAS)</option>
+                  <option value="BDAG">BDAG Token</option>
+                </select>
+                
+                <div className="trading-input-row">
+                  <input 
+                    type="number" 
+                    placeholder="Amount" 
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                  />
+                  <select value={leverage} onChange={(e) => setLeverage(e.target.value)}>
+                    <option value="1x">1x</option>
+                    <option value="2x">2x</option>
+                    <option value="5x">5x</option>
+                    <option value="10x">10x</option>
+                  </select>
+                </div>
+                
+                <select value={orderType} onChange={(e) => setOrderType(e.target.value)}>
+                  <option value="market">Market Order</option>
+                  <option value="limit">Limit Order</option>
+                  <option value="stop">Stop-Loss</option>
+                </select>
+              </div>
+              
+              <div className="trading-actions">
+                <button className="btn-buy" onClick={() => handleTrade('buy')}>Buy/Long</button>
+                <button className="btn-sell" onClick={() => handleTrade('sell')}>Sell/Short</button>
+              </div>
+            </>
+          )}
+          
+          {activeTab === 'history' && (
+            <div style={{ maxHeight: '250px', overflowY: 'auto' }}>
+              {transactions.length > 0 ? (
+                transactions.map((tx, index) => (
+                  <div key={index} className="trading-info" style={{ marginBottom: '10px' }}>
+                    <p><strong>{tx.side.toUpperCase()} Order</strong> on {tx.asset}</p>
+                    <p>Amount: {tx.amount} | Leverage: {tx.leverage} | Type: {tx.orderType}</p>
+                    <p style={{ fontSize: '10px' }}>ID: {tx.id}</p>
+                  </div>
+                ))
+              ) : (
+                <div className="trading-info">
+                  <p>Your trading history will appear here once you start trading.</p>
+                </div>
+              )}
+            </div>
+          )}
+          
+          {reply && (
+            <div className="trading-info">
+              <p>{reply}</p>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // Prediction List Component
+    function PredictionList() {
+      const [predictions, setPredictions] = React.useState([]);
+      const [filter, setFilter] = React.useState('All Assets');
+
+      const fetchPredictions = async () => {
+        try {
+          const response = await fetch(`${API_URL}/predictions`);
+          if (response.ok) {
+            const data = await response.json();
+            setPredictions(data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch predictions:", error);
+        }
+      };
+
+      React.useEffect(() => {
+        fetchPredictions();
+      }, []);
+
+      const filteredPredictions = predictions.filter(p => {
+        if (filter === 'All Assets') return true;
+        return p.name.includes(filter);
+      });
+
+      return (
+        <div className="predictions-list" id="predictions">
+          <div className="prediction-header">
+            <div className="card-title">Latest Predictions</div>
+            <select className="prediction-filter" onChange={(e) => setFilter(e.target.value)}>
+              <option>All Assets</option>
+              <option>Oil</option>
+              <option>Gas</option>
+            </select>
+          </div>
+          {filteredPredictions.map((p) => (
+            <div key={p.id} className="prediction-item">
+              <div className="prediction-info">
+                <div className="prediction-name">{p.name}</div>
+                <div className="prediction-date">Prediction for {p.date}</div>
+              </div>
+              <div>
+                <div className="prediction-value">{p.value}</div>
+                <div className={`card-change ${p.change.includes('+') ? '' : 'negative'}`}>
+                  {p.change}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // Blog Section
+    function Blog() {
+      return (
+        <section className="blog-section">
+          <h2>Energy Market Insights</h2>
+          <div className="blog-grid">
+            <div className="blog-card">
+              <img src="https://placehold.co/600x400/1e293b/cbd5e1?text=Oil+Market" alt="Oil Market"/>
+              <h3>Oil Market Trading Insights</h3>
+              <p>
+                Stay informed with the latest crude oil price movements, global production updates, 
+                and real-time trading opportunities. At <strong>DAGFuel</strong>, oil is more than 
+                just a commodity—it's a tradable digital asset. Explore how traders are going 
+                long or short, manage risk, and predict future energy price trends directly on blockchain.
+              </p>
+            </div>
+
+            <div className="blog-card">
+              <img src="https://placehold.co/600x400/1e293b/cbd5e1?text=Gas+Market" alt="Gas Market"/>
+              <h3>Gas Market Prediction & Strategy</h3>
+              <p>
+                Track the natural gas market with in-depth demand forecasts, LNG supply chain shifts, 
+                and regional consumption trends. <strong>DAGFuel</strong> empowers users to 
+                transform these insights into trading strategies—whether predicting bullish runs 
+                or preparing for bearish downturns. Discover how tokenized gas assets bring 
+                transparency and innovation to energy trading.
+              </p>
+            </div>
+
+            <div className="blog-card">
+              <img src="https://placehold.co/600x400/1e293b/cbd5e1?text=BDAG+Token" alt="BDAG Token"/>
+              <h3>BDAG Token Utility</h3>
+              <p>
+                Learn how BDAG tokens power the DAGFuel ecosystem. BDAG is used for all transactions, 
+                trading fees, staking, and governance. Holders benefit from reduced fees, exclusive 
+                market insights, and voting rights on platform developments. Discover the tokenomics 
+                behind our innovative energy trading platform.
+              </p>
+            </div>
+
+            <div className="blog-card">
+              <img src="https://placehold.co/600x400/1e293b/cbd5e1?text=Trading+Strategies" alt="Trading Strategies"/>
+              <h3>Trading Strategies for Oil & Gas</h3>
+              <p>
+                Successful traders use more than luck—they analyze volatility, technical indicators, 
+                and market sentiment. <strong>DAGFuel</strong> provides an environment to test 
+                strategies like scalping, swing trading, and long-term holding on tokenized 
+                commodities. Turn knowledge of the energy market into winning predictions 
+                and transparent blockchain-based trades.
+              </p>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // Main App Component
+    function App() {
+      const [marketData, setMarketData] = React.useState([]);
+      const [selectedAsset, setSelectedAsset] = React.useState('OIL');
+
+      const fetchMarketData = async () => {
+        try {
+          const response = await fetch(`${API_URL}/market-data`);
+          if (response.ok) {
+            const data = await response.json();
+            const formattedData = [
+              { title: 'Oil (WTI)', value: `$${data.oil.price.toFixed(2)}`, change: data.oil.change, isPositive: data.oil.isPositive },
+              { title: 'Natural Gas', value: `$${data.gas.price.toFixed(2)}`, change: data.gas.change, isPositive: data.gas.isPositive },
+              { title: 'BDAG Token', value: `$${data.bdag.price.toFixed(2)}`, change: data.bdag.change, isPositive: data.bdag.isPositive }
+            ];
+            setMarketData(formattedData);
+          }
+        } catch (error) {
+          console.error("Failed to fetch market data:", error);
+        }
+      };
+      
+      React.useEffect(() => {
+        fetchMarketData();
+        const interval = setInterval(fetchMarketData, 60000); // Poll for new data every minute
+        return () => clearInterval(interval);
+      }, []);
+
+      const getWalletAddress = () => {
+        return localStorage.getItem('walletAddress');
+      };
+
+      return (
+        <div className="container">
+          <Header />
+          <Hero />
+
+          <div className="dashboard-title" id="dashboard">
+            <i className="fas fa-chart-line"></i> Market Prediction Dashboard
+          </div>
+
+          <div className="dashboard-grid">
+            {marketData.map((d, i) => <MarketCard key={i} {...d} />)}
+          </div>
+
+          <div className="main-content">
+            <Chart asset={selectedAsset} />
+            <TradingAssistant walletAddress={getWalletAddress()} />
+            <PredictionList />
+          </div>
+
+          <Blog />
+
+          <div className="footer">
+            <p>DAGFuel - Oil & Gas Prediction Platform © 2023. For research & insights only.</p>
+            <p id="learn">Learn more • Contact • Privacy • Terms</p>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
